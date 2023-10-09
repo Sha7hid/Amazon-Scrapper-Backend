@@ -4,10 +4,9 @@ const userSchema = new mongoose.Schema({
   googleId: String,
   displayName: String,
   email: String,
-  schedule:Number
+  schedule: String, 
 });
 
+const User = mongoose.model('Users', userSchema);
 
-const nar = mongoose.model('Users', userSchema);
-
-module.exports = nar;
+module.exports = User;
