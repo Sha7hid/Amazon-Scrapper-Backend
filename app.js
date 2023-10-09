@@ -15,6 +15,8 @@ const connectDB = require("./config/db");
 const { scheduleEmail } = require("./controllers/cronController");
 const { getProductLinkById } = require("./controllers/user");
 
+const mongo_uri = `mongodb+srv://shahid:arthur#540913@cluster0.ggcnvuy.mongodb.net/Backlit`;
+
 connectDB();
 const port = process.env.PORT || 443;
 console.log({ port });
