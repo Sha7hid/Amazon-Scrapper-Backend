@@ -1,6 +1,7 @@
 
 const nar = require('../models/User'); 
 const ProductLink = require('../models/ProductLink');
+const ScrapData = require('../models/Scrap');
 
   // Get all user data
   const getAllUsers = async (req, res, next) => {
@@ -205,6 +206,82 @@ const getProductLinksByUser = async (req, res, next) => {
   }
 };
 
+const getLatestProductLinksByUser = async (req, res, next) => {
+  try {
+    const userGoogleId = req.params.userGoogleId;
+    // Find the latest product links for the specified user based on the 'createdAt' field
+    const latestProductLinks = await ProductLink
+      .find({ user: userGoogleId })
+      .sort({ createdAt: -1 }).limit(1) // Sort in descending order (latest first)
+    return res.status(200).json(latestProductLinks);
+  } catch (error) {
+    next(error);
+  }
+};
+const createScrapData = async (req, res, next) => {
+  try {
+    const { name, reviewCount, rating, productLinkId } = req.body;
+
+    // Create a new ScrapData entry and associate it with the specified product link
+    const scrapData = await ScrapData.create({ name, reviewCount, rating, productLink: productLinkId });
+
+    return res.status(201).json(scrapData);
+  } catch (error) {
+    next(error);
+  }
+};
+const getAllScrapData = async (req, res, next) => {
+  try {
+    const scrapDataEntries = await ScrapData.find();
+    return res.status(200).json(scrapDataEntries);
+  } catch (error) {
+    next(error);
+  }
+};
+const getScrapDataById = async (req, res, next) => {
+  try {
+    const scrapDataId = req.params.id;
+    const scrapData = await ScrapData.findById(scrapDataId);
+
+    if (!scrapData) {
+      return res.status(404).json({ message: 'ScrapData not found' });
+    }
+
+    return res.status(200).json(scrapData);
+  } catch (error) {
+    next(error);
+  }
+};
+const getScrapDataByProductLinkId = async (req, res, next) => {
+  try {
+    const productLinkId = req.params.productLinkId;
+    // Find all ScrapData entries associated with the specified product link
+    const scrapData = await ScrapData.find({ productLink: productLinkId });
+
+    return res.status(200).json(scrapData);
+  } catch (error) {
+    next(error);
+  }
+};
+// Update user emails by Google ID
+const updateUserEmailsByGoogleId = async (req, res, next) => {
+  try {
+    const googleId = req.params.googleId; // Assuming the Google ID is passed as a URL parameter
+    const emails = req.body; // The updated email values
+
+    // Find and update the user by their Google ID
+    const updatedUser = await nar.findOneAndUpdate({ googleId }, emails, { new: true });
+console.log(updatedUser)
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
   
 
 module.exports = {
@@ -220,5 +297,11 @@ getProductLinksByUser,
 getProductLinkById,
 updateProductLinkById,
 deleteProductLinkById,
-findUserByGoogleId
+findUserByGoogleId,
+getLatestProductLinksByUser,
+createScrapData,
+getAllScrapData,
+getScrapDataById,
+getScrapDataByProductLinkId,
+updateUserEmailsByGoogleId
 };

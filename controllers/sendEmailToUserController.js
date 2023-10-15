@@ -1,9 +1,10 @@
 const { sendEmailWithLinks } = require('./emailController');
 
-const sendEmailToUser = async (name, email, productLinks) => {
+const sendEmailToUser = async (name, email,email2,email3,scrap) => {
+  
   try {
     // Call the sendEmailWithLinks function to send the email
-    await sendEmailWithLinks(name, email, productLinks);
+    await sendEmailWithLinks(name, email,email2,email3, scrap);
     console.log(`Email sent to ${email}`);
     return { success: true, message: 'Email sent successfully' };
   } catch (error) {

@@ -18,4 +18,10 @@ router.get('/api/productlink/:id',userController.getProductLinkById)
 router.get('/api/productlink/user/:userGoogleId',userController.getProductLinksByUser)
 router.delete('/api/productlink/:id',userController.deleteProductLinkById)
 router.put('/api/productlink/:id',userController.updateProductLinkById)
+router.get('/api/latestproductlink/user/:userGoogleId',userController.getLatestProductLinksByUser);
+router.post('/api/scrap',userController.createScrapData);
+router.get('/api/scrap',userController.getAllScrapData)
+router.get('/api/scrap/:id',userController.getScrapDataById)
+router.get('/api/scrap/productlink/:productLinkId',userController.getScrapDataByProductLinkId)
+router.put('api/user/emails/:googleId', userController.updateUserEmailsByGoogleId);
 module.exports = router;

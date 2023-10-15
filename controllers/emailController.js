@@ -9,23 +9,25 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmailWithLinks = async (name, email, productLinks) => {
+const sendEmailWithLinks = async (name, email,email2,email3, scrap) => {
+  console.log(scrap)
   try {
     // Create email content with the product links
-    console.log(productLinks)
+
     const emailContent = `
       Hello ${name},
 
-      Here are your product links:
-      ${productLinks
-        .map(item => `${item.url}: ${item.url2}, ${item.url3}`)
-        .join('\n')}
+      Here are your scrapped review counts:
+      ${scrap
+        .map(item =>
+          item.map((data)=>`${data.productName?.split(',')[0]}: ${data.reviewCount}, Rating:${data.rating} \n`) )
+        .join('\n\n')}}
     `;
 
     const mailOptions = {
       from: 'shahidshafadshahad@gmail.com',
-      to: email,
-      subject: 'Product Links',
+      to: [email,email2,email3],
+      subject: 'Review Counts',
       text: emailContent,
     };
 
