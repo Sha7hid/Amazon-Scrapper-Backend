@@ -24,7 +24,7 @@ const schedule = inngest.createFunction(
                 
               
                     try {
-                      const scrapResponse = await axios.post("http://localhost:5000/review-count", {
+                      const scrapResponse = await axios.post("https://scrapper-hori.onrender.com/review-count", {
                         urls: urlArray, 
                       });
                       scrap.push(scrapResponse.data.results); 
@@ -69,7 +69,7 @@ const schedule = inngest.createFunction(
                 
               
                     try {
-                      const scrapResponse = await axios.post("http://localhost:5000/review-count", {
+                      const scrapResponse = await axios.post("https://scrapper-hori.onrender.com/review-count", {
                         urls: urlArray, 
                       });
                       scrap.push(scrapResponse.data.results); 
